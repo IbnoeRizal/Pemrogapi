@@ -6,24 +6,10 @@ import { jwtVerify } from "jose";
  */
 export async function middleware(req) {
 
-    console.log("=== MIDDLEWARE DEBUG ===");
-    console.log("URL:", req.url);
-    console.log("Method:", req.method);
-    console.log("Headers:", Object.fromEntries(req.headers));
-    console.log("Authorization:", req.headers.get("Authorization"));
-    console.log("========================");
-
     const autHeader = req.headers.get("Authorization")
     
     if(!autHeader || !autHeader.startsWith("Bearer ")){
         return NextResponse.json({message: "Unauthorized: Token is missing"},{status: 401});
-        return NextResponse.json({
-            message: "Unauthorized: Token is missing",
-            debug: {
-                hasAuthHeader: !!authHeader,
-                authHeaderValue: authHeader // Hati-hati jangan log di production
-            }
-        }, {status: 401});
     }
     const token = autHeader.split(" ")[1];
 
